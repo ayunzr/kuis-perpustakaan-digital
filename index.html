@@ -1,81 +1,56 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kuis Interaktif - Manajemen & Digitalisasi Perpustakaan</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kuis 10 Soal - Perpustakaan Digital</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Fraunces:opsz,wght@9..144,800&display=swap" rel="stylesheet">
-<style>
-body{font-family:'Plus Jakarta Sans',sans-serif}
-h1,h2{font-family:'Fraunces',serif}
-@keyframes pop{0%{transform:scale(.9)}100%{transform:scale(1)}}
-.animate-pop{animation:pop.3s ease}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Fraunces:opsz,wght@9..144,800&display=swap" rel="stylesheet">
+<style>body{font-family:'Plus Jakarta Sans',sans-serif}h1{font-family:'Fraunces',serif}</style>
 </head>
-<body class="bg-[#f8f5ff] min-h-screen p-3 md:p-6">
-<div class="fixed top-[-100px] left-[-100px] w-[400px] h-[400px] bg-violet-300 rounded-full blur-[120px] opacity-40 pointer-events-none"></div>
-<div class="fixed bottom-[-100px] right-[-100px] w-[500px] h-[500px] bg-amber-200 rounded-full blur-[130px] opacity-50 pointer-events-none"></div>
-
-<div class="max-w-3xl mx-auto relative">
+<body class="bg-[#f8f5ff] min-h-screen p-4">
+<div class="max-w-2xl mx-auto">
 <div class="text-center py-6">
-<div class="inline-flex bg-white shadow-sm border px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest">📚 MANAJEMEN & DIGITALISASI PERPUSTAKAAN</div>
-<h1 class="text-[32px] md:text-[44px] font-extrabold leading-[0.9] mt-4 text-slate-900">Kuis Pemahaman<br><span class="text-violet-600">Teman-Teman Kelas</span></h1>
-<p class="text-slate-500 text-sm mt-3">8 Soal dari materi kelas - Coba seberapa paham kamu!</p>
+<div class="bg-white border shadow-sm inline-block px-4 py-1 rounded-full text-[10px] font-bold tracking-widest">📚 KUIS 10 SOAL - MATERI KELAS</div>
+<h1 class="text-4xl font-extrabold mt-4 leading-none">Perpustakaan<br><span class="text-violet-600">Digital</span></h1>
+<p class="text-sm text-slate-500 mt-2">Jawab 10 soal, lihat skor kamu!</p>
 </div>
-
-<div class="bg-white/90 backdrop-blur rounded-[28px] shadow-[0_25px_80px_-20px_rgba(0,0,0,0.2)] border border-white p-5 md:p-8">
-<div class="flex items-center gap-3 mb-6">
-<span id="qNum" class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-full">1/8</span>
-<div class="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden"><div id="bar" class="h-full bg-gradient-to-r from-violet-600 to-indigo-500 transition-all duration-700" style="width:12%"></div></div>
-<span id="score" class="text-xs font-bold bg-violet-100 text-violet-700 px-3 py-1 rounded-full">Skor 0</span>
+<div class="bg-white rounded-[28px] shadow-xl border p-6">
+<div class="flex items-center gap-3 mb-5">
+<span id="qNum" class="bg-slate-900 text-white text-xs px-3 py-1 rounded-full font-bold">1/10</span>
+<div class="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden"><div id="bar" class="h-full bg-violet-600 transition-all" style="width:10%"></div></div>
+<span id="skor" class="text-xs font-bold bg-violet-100 text-violet-700 px-3 py-1 rounded-full">Skor 0</span>
 </div>
-
 <div id="quiz"></div>
 </div>
 </div>
-
 <script>
 const soal=[
-{ q:"Apa tujuan utama dari penerapan sistem manajemen perpustakaan modern?", a:["Memperluas area fisik gedung perpustakaan secara berkala","Meningkatkan efisiensi layanan, pengelolaan koleksi, dan aksesibilitas bagi pemustaka","Mengurangi jumlah kunjungan fisik secara drastis","Mengganti seluruh pustakawan dengan sistem kecerdasan buatan"], k:1, p:"Tujuan utamanya adalah efisiensi layanan dan kemudahan akses, bukan mengganti pustakawan." },
-{ q:"Dalam konteks digitalisasi perpustakaan, apa yang dimaksud dengan Digital Library?", a:["Perpustakaan yang hanya menyediakan buku cetak dengan sampul digital","Perpustakaan yang tidak memiliki gedung fisik sama sekali","Perpustakaan yang menyimpan koleksinya dalam format digital serta dapat diakses melalui jaringan komputer","Koleksi buku pribadi yang dipindai tanpa izin penerbit"], k:2, p:"Digital Library = koleksi format digital yang bisa diakses online kapan saja." },
-{ q:"Standar metadata apa yang paling umum digunakan untuk mendeskripsikan sumber digital di perpustakaan?", a:["MARC21","Dublin Core","ISBN","ISSN"], k:1, p:"Dublin Core itu standar paling populer karena sederhana dan fleksibel untuk repositori." },
-{ q:"Apa keuntungan utama RFID dibandingkan barcode tradisional?", a:["Biaya perawatan yang jauh lebih murah","Dapat membaca banyak item sekaligus tanpa garis pandang langsung","Tidak memerlukan perangkat keras khusus","Meniadakan inventarisasi tahunan"], k:1, p:"RFID unggul karena bisa scan banyak buku sekaligus tanpa harus sejajar." },
-{ q:"Apa fungsi dari Integrated Library System (ILS)?", a:["Mengatur suhu ruangan dan pencahayaan","Mengintegrasikan sirkulasi, pengatalogan, pengadaan, dan keanggotaan dalam satu sistem","Menghubungkan media sosial perpustakaan","Mengelola keuangan terpisah dari data buku"], k:1, p:"ILS adalah jantung perpustakaan modern, semua fungsi jadi satu software." },
-{ q:"Apa tantangan terbesar dalam digitalisasi naskah kuno?", a:["Kurangnya minat baca masyarakat","Risiko kerusakan fisik pada dokumen asli dan biaya pelestarian digital yang tinggi","Format file sulit diunggah","Tidak ada software pembaca huruf kuno"], k:1, p:"Naskah kuno rapuh, butuh alat khusus dan biaya preservasi mahal." },
-{ q:"Apa yang dimaksud dengan Open Access?", a:["Akses bebas biaya dan tanpa batasan hukum untuk membaca, mengunduh, dan mendistribusikan karya ilmiah daring","Akses perpustakaan 24 jam penuh","Boleh bawa buku tanpa dicatat","Keanggotaan gratis untuk umum"], k:0, p:"Open Access = ilmu pengetahuan gratis, legal, untuk semua orang." },
-{ q:"Perangkat lunak apa yang sering digunakan untuk membangun repositori institusi?", a:["Microsoft Word","DSpace atau EPrints","Adobe Photoshop","Google Docs"], k:1, p:"DSpace dan EPrints adalah software open source paling banyak dipakai kampus dunia." }
+{q:"Apa tujuan utama dari penerapan sistem manajemen perpustakaan modern?",a:["Memperluas gedung","Meningkatkan efisiensi layanan & akses informasi","Mengurangi kunjungan","Mengganti pustakawan dengan AI"],k:1,p:"Fokus utamanya efisiensi layanan dan kemudahan akses."},
+{q:"Apa yang dimaksud dengan Digital Library?",a:["Buku cetak sampul digital","Perpustakaan tanpa gedung","Koleksi digital yang diakses via jaringan komputer","Koleksi pribadi yang dipindai"],k:2,p:"Digital library = koleksi digital yang bisa diakses online."},
+{q:"Standar metadata yang paling umum untuk perpustakaan digital?",a:["MARC21","Dublin Core","ISBN","ISSN"],k:1,p:"Dublin Core paling populer karena sederhana."},
+{q:"Keuntungan utama RFID dibanding barcode?",a:["Lebih murah","Baca banyak item sekaligus tanpa garis pandang","Tidak butuh hardware","Hapus inventaris"],k:1,p:"RFID bisa scan 10+ buku sekaligus."},
+{q:"Fungsi utama ILS (Integrated Library System)?",a:["Atur suhu ruangan","Integrasi sirkulasi, katalog, pengadaan, anggota","Kelola sosmed","Kelola keuangan kampus"],k:1,p:"ILS menyatukan semua fungsi perpustakaan."},
+{q:"Tantangan terbesar digitalisasi naskah kuno?",a:["Kurang minat baca","Risiko kerusakan fisik & biaya tinggi","Sulit upload","Tidak ada software"],k:1,p:"Naskah kuno rapuh, butuh alat & biaya khusus."},
+{q:"Apa itu Open Access?",a:["Akses gratis legal untuk baca & unduh karya ilmiah","Buka 24 jam","Boleh bawa buku bebas","Anggota gratis"],k:0,p:"Open Access = ilmu gratis untuk semua."},
+{q:"Software populer untuk repositori institusi?",a:["MS Word","DSpace / EPrints","Photoshop","Google Docs"],k:1,p:"DSpace & EPrints dipakai ribuan kampus."},
+{q:"Apa fungsi OPAC dalam perpustakaan digital?",a:["Katalog online untuk telusur koleksi oleh pemustaka","Alat peminjaman offline","Pengatur rak buku","Aplikasi kasir"],k:0,p:"OPAC = Online Public Access Catalog, untuk cari buku online."},
+{q:"Mengapa preservasi digital itu penting?",a:["Agar koleksi digital tetap bisa dibaca jangka panjang","Agar file lebih besar","Agar tidak perlu backup","Agar bisa dijual"],k:0,p:"Format digital bisa rusak/usang, perlu preservasi agar tetap awet."}
 ];
-let idx=0, skor=0;
-const elQuiz=document.getElementById('quiz'), elBar=document.getElementById('bar'), elQNum=document.getElementById('qNum'), elScore=document.getElementById('score');
-
+let idx=0,sk=0;
+const quiz=document.getElementById('quiz'),bar=document.getElementById('bar'),qNum=document.getElementById('qNum'),skorEl=document.getElementById('skor');
 function render(){
 if(idx>=soal.length){
-elQuiz.innerHTML=`<div class="text-center py-8 animate-pop"><div class="text-7xl mb-4">${skor>=6?'🏆':'✨'}</div><h2 class="text-3xl font-extrabold">Skor Akhir: ${skor}/${soal.length}</h2><p class="text-slate-500 mt-2 text-sm">${skor==8?'WOW Sempurna! Materi kelas kamu kuasai banget!':skor>=6?'Keren! Pemahaman kamu tentang perpustakaan digital oke!':'Semangat, coba lagi biar makin paham materinya!'}</p><div class="mt-6 flex gap-3 justify-center"><button onclick="idx=0;skor=0;update();render()" class="bg-slate-900 text-white px-7 py-3 rounded-full font-bold text-sm">🔁 Ulang Kuis</button><button onclick="navigator.share?navigator.share({title:'Kuis Perpustakaan',url:location.href}):alert('Copy link: '+location.href)" class="bg-white border px-7 py-3 rounded-full font-bold text-sm">📤 Bagikan</button></div></div>`;
-return;
+quiz.innerHTML=`<div class="text-center py-8"><div class="text-6xl mb-3">🏆</div><h2 class="text-2xl font-extrabold">Skor: ${sk}/10</h2><p class="text-sm text-slate-500 mt-2">${sk>=8?'Luar biasa! Materi kelas kamu kuasai!':sk>=6?'Keren! Lanjut pertahankan!':'Semangat, coba lagi!'}</p><button onclick="idx=0;sk=0;render()" class="mt-6 bg-slate-900 text-white px-8 py-3 rounded-full font-bold">🔁 Ulangi</button></div>`;return;
 }
 let s=soal[idx];
-elQuiz.innerHTML=`<h2 class="text-[18px] md:text-[20px] font-bold leading-snug mb-5 text-slate-900">${idx+1}. ${s.q}</h2><div class="grid gap-3">${s.a.map((t,i)=>`<button onclick="jawab(${i})" class="group text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50/50 hover:border-violet-400 hover:bg-violet-50 transition-all text-sm font-medium flex gap-3"><span class="shrink-0 w-8 h-8 rounded-full bg-white border flex items-center justify-center font-bold text-xs group-hover:bg-violet-600 group-hover:text-white">${String.fromCharCode(65+i)}</span><span class="pt-1">${t}</span></button>`).join('')}</div><div id="fb" class="mt-4"></div>`;
-update();
+quiz.innerHTML=`<h2 class="font-bold text-[17px] mb-4 leading-snug">${idx+1}. ${s.q}</h2><div class="space-y-2">${s.a.map((t,i)=>`<button onclick="jawab(${i})" class="w-full text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50 hover:border-violet-400 hover:bg-violet-50 transition text-sm font-medium"> <span class="font-bold mr-2">${String.fromCharCode(65+i)}.</span>${t}</button>`).join('')}</div><div id="fb" class="mt-4"></div>`;
+bar.style.width=`${(idx/10)*100}%`; qNum.innerText=`${idx+1}/10`; skorEl.innerText=`Skor ${sk}`;
 }
-function jawab(pilih){
-let s=soal[idx];
-let btns=elQuiz.querySelectorAll('button');
-let fb=document.getElementById('fb');
-btns.forEach((b,i)=>{
-b.disabled=true;
-if(i==s.k){b.className="text-left p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-sm font-medium flex gap-3";}
-else if(i==pilih){b.className="text-left p-4 rounded-2xl border-2 border-red-300 bg-red-50 text-sm font-medium flex gap-3";}
-});
-if(pilih==s.k){skor++; fb.innerHTML=`<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-sm"><b class="text-emerald-700">✅ BENAR!</b> <span class="text-slate-600">${s.p}</span></div>`;}
-else{fb.innerHTML=`<div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm"><b class="text-amber-700">Jawaban benar: ${String.fromCharCode(65+s.k)}</b> <span class="text-slate-600">${s.p}</span></div>`;}
-update();
-setTimeout(()=>{idx++; render();},1600);
-}
-function update(){
-elBar.style.width=`${(idx/soal.length)*100}%`;
-elQNum.innerText=`${Math.min(idx+1,soal.length)}/${soal.length}`;
-elScore.innerText=`Skor ${skor}`;
+function jawab(p){
+let s=soal[idx]; let fb=document.getElementById('fb'); let btns=quiz.querySelectorAll('button');
+btns.forEach((b,i)=>{b.disabled=true; if(i==s.k) b.className="w-full text-left p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-sm font-medium"; else if(i==p) b.className="w-full text-left p-4 rounded-2xl border-2 border-red-300 bg-red-50 text-sm font-medium";});
+if(p==s.k){sk++; fb.innerHTML=`<div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-sm"><b>✅ Benar!</b> ${s.p}</div>`}else{fb.innerHTML=`<div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-sm"><b>Jawaban: ${String.fromCharCode(65+s.k)}</b> ${s.p}</div>`}
+skorEl.innerText=`Skor ${sk}`; setTimeout(()=>{idx++; render();},1500);
 }
 render();
 </script>
