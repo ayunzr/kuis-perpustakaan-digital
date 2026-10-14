@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Perpustakaan Digital</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-slate-50 font-sans">
+<header class="bg-white p-4 shadow sticky top-0 flex justify-between"><b>📚 Perpustakaan Digital</b><span id="progressText" class="text-indigo-600 text-sm">1/8</span></header>
+<main class="max-w-3xl mx-auto p-4" id="main"></main>
+<script>
+const qs=[
+{qq:"Apa tujuan utama dari penerapan sistem manajemen perpustakaan modern?",o:["Memperluas area fisik gedung","Meningkatkan efisiensi layanan, pengelolaan koleksi, dan aksesibilitas","Mengurangi jumlah kunjungan fisik","Mengganti pustakawan dengan AI"],c:1},
+{qq:"Apa yang dimaksud dengan Digital Library?",o:["Hanya buku cetak sampul digital","Tidak punya gedung fisik","Menyimpan koleksi dalam format digital dan bisa diakses lewat jaringan komputer","Koleksi pribadi dipindai tanpa izin"],c:2},
+{qq:"Standar metadata apa yang paling umum untuk sumber digital?",o:["MARC21","Dublin Core","ISBN","ISSN"],c:1},
+{qq:"Keuntungan RFID vs barcode?",o:["Biaya lebih murah","Baca banyak item sekaligus tanpa line of sight","Tidak perlu hardware khusus","Tidak perlu inventarisasi"],c:1},
+{qq:"Fungsi Integrated Library System (ILS)?",o:["Atur suhu ruangan","Integrasi sirkulasi, katalog, pengadaan, keanggotaan dalam satu sistem","Hubungkan sosmed","Kelola keuangan terpisah"],c:1},
+{qq:"Tantangan terbesar alih media naskah kuno?",o:["Kurang minat baca","Risiko kerusakan fisik saat scan dan biaya pelestarian tinggi","Sulit upload ke internet","Tidak ada software baca huruf kuno"],c:1},
+{qq:"Apa itu Open Access?",o:["Akses gratis tanpa batasan hukum untuk baca, unduh, distribusi karya ilmiah daring","Perpus buka 24 jam","Boleh bawa buku tanpa catat","Keanggotaan gratis"],c:0},
+{qq:"Software untuk repositori institusi?",o:["Microsoft Word","DSpace atau EPrints","Photoshop","Google Docs"],c:1},
+];
+let cur=0,sc=0;
+function render(){if(cur>=qs.length){document.getElementById('main').innerHTML=`<div class='bg-white p-8 rounded-2xl text-center'><h2 class='text-2xl font-bold'>Skor: ${sc}/${qs.length}</h2><p class='mt-2'>${sc>=6?'Keren! 🎉':'Semangat belajar lagi! 📚'}</p><button onclick='cur=0;sc=0;render()' class='mt-4 bg-indigo-600 text-white px-6 py-2 rounded-xl'>Ulangi</button><p class='mt-6 text-sm'>Link kamu: https://ayunzr.github.io/kuis-perpustakaan-digital/</p></div>`;return}
+let q=qs[cur];document.getElementById('progressText').innerText=(cur+1)+'/'+qs.length;
+document.getElementById('main').innerHTML=`<div class='bg-white p-6 rounded-2xl shadow'><h3 class='font-bold text-lg mb-4'>${cur+1}. ${q.qq}</h3>${q.o.map((opt,i)=>`<button onclick='jawab(${i})' id='b${i}' class='w-full text-left p-3 mb-2 border rounded-xl bg-slate-50 hover:bg-white'>${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}<div id='fb' class='hidden mt-4 p-3 rounded-xl'></div><button id='next' onclick='cur++;render()' class='hidden mt-4 w-full bg-indigo-600 text-white py-2 rounded-xl'>Lanjut</button></div>`;
+}
+function jawab(i){let q=qs[cur];let fb=document.getElementById('fb');let next=document.getElementById('next');for(let k=0;k<q.o.length;k++){document.getElementById('b'+k).disabled=true}
+if(i==q.c){sc++;document.getElementById('b'+i).className='w-full text-left p-3 mb-2 border-2 border-green-500 bg-green-50 rounded-xl';fb.className='mt-4 p-3 rounded-xl bg-green-50 border border-green-200';fb.innerText='✅ Benar!';}else{document.getElementById('b'+i).className='w-full text-left p-3 mb-2 border-2 border-red-400 bg-red-50 rounded-xl';document.getElementById('b'+q.c).className='w-full text-left p-3 mb-2 border-2 border-green-500 bg-green-50 rounded-xl';fb.className='mt-4 p-3 rounded-xl bg-amber-50 border';fb.innerText='❌ Jawaban benar: '+String.fromCharCode(65+q.c);}
+fb.classList.remove('hidden');next.classList.remove('hidden');}
+render();
+</script>
+</body>
+  </html>
