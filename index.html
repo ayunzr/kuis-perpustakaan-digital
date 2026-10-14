@@ -3,33 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kuis Perpustakaan Digital</title>
+<title>Kuis Interaktif - Manajemen & Digitalisasi Perpustakaan</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Fraunces:opsz,wght@9..144,800&display=swap" rel="stylesheet">
+<style>
+body{font-family:'Plus Jakarta Sans',sans-serif}
+h1,h2{font-family:'Fraunces',serif}
+@keyframes pop{0%{transform:scale(.9)}100%{transform:scale(1)}}
+.animate-pop{animation:pop.3s ease}
+</style>
 </head>
-<body class="bg-slate-50 font-sans">
-<header class="bg-white p-4 shadow sticky top-0 flex justify-between"><b>📚 Perpustakaan Digital</b><span id="progressText" class="text-indigo-600 text-sm">1/8</span></header>
-<main class="max-w-3xl mx-auto p-4" id="main"></main>
+<body class="bg-[#f8f5ff] min-h-screen p-3 md:p-6">
+<div class="fixed top-[-100px] left-[-100px] w-[400px] h-[400px] bg-violet-300 rounded-full blur-[120px] opacity-40 pointer-events-none"></div>
+<div class="fixed bottom-[-100px] right-[-100px] w-[500px] h-[500px] bg-amber-200 rounded-full blur-[130px] opacity-50 pointer-events-none"></div>
+
+<div class="max-w-3xl mx-auto relative">
+<div class="text-center py-6">
+<div class="inline-flex bg-white shadow-sm border px-4 py-1.5 rounded-full text-[11px] font-bold tracking-widest">📚 MANAJEMEN & DIGITALISASI PERPUSTAKAAN</div>
+<h1 class="text-[32px] md:text-[44px] font-extrabold leading-[0.9] mt-4 text-slate-900">Kuis Pemahaman<br><span class="text-violet-600">Teman-Teman Kelas</span></h1>
+<p class="text-slate-500 text-sm mt-3">8 Soal dari materi kelas - Coba seberapa paham kamu!</p>
+</div>
+
+<div class="bg-white/90 backdrop-blur rounded-[28px] shadow-[0_25px_80px_-20px_rgba(0,0,0,0.2)] border border-white p-5 md:p-8">
+<div class="flex items-center gap-3 mb-6">
+<span id="qNum" class="bg-slate-900 text-white text-xs font-bold px-3 py-1.5 rounded-full">1/8</span>
+<div class="flex-1 h-2.5 bg-slate-100 rounded-full overflow-hidden"><div id="bar" class="h-full bg-gradient-to-r from-violet-600 to-indigo-500 transition-all duration-700" style="width:12%"></div></div>
+<span id="score" class="text-xs font-bold bg-violet-100 text-violet-700 px-3 py-1 rounded-full">Skor 0</span>
+</div>
+
+<div id="quiz"></div>
+</div>
+</div>
+
 <script>
-const qs=[
-{qq:"Apa tujuan utama dari penerapan sistem manajemen perpustakaan modern?",o:["Memperluas area fisik gedung","Meningkatkan efisiensi layanan, pengelolaan koleksi, dan aksesibilitas","Mengurangi jumlah kunjungan fisik","Mengganti pustakawan dengan AI"],c:1},
-{qq:"Apa yang dimaksud dengan Digital Library?",o:["Hanya buku cetak sampul digital","Tidak punya gedung fisik","Menyimpan koleksi dalam format digital dan bisa diakses lewat jaringan komputer","Koleksi pribadi dipindai tanpa izin"],c:2},
-{qq:"Standar metadata apa yang paling umum untuk sumber digital?",o:["MARC21","Dublin Core","ISBN","ISSN"],c:1},
-{qq:"Keuntungan RFID vs barcode?",o:["Biaya lebih murah","Baca banyak item sekaligus tanpa line of sight","Tidak perlu hardware khusus","Tidak perlu inventarisasi"],c:1},
-{qq:"Fungsi Integrated Library System (ILS)?",o:["Atur suhu ruangan","Integrasi sirkulasi, katalog, pengadaan, keanggotaan dalam satu sistem","Hubungkan sosmed","Kelola keuangan terpisah"],c:1},
-{qq:"Tantangan terbesar alih media naskah kuno?",o:["Kurang minat baca","Risiko kerusakan fisik saat scan dan biaya pelestarian tinggi","Sulit upload ke internet","Tidak ada software baca huruf kuno"],c:1},
-{qq:"Apa itu Open Access?",o:["Akses gratis tanpa batasan hukum untuk baca, unduh, distribusi karya ilmiah daring","Perpus buka 24 jam","Boleh bawa buku tanpa catat","Keanggotaan gratis"],c:0},
-{qq:"Software untuk repositori institusi?",o:["Microsoft Word","DSpace atau EPrints","Photoshop","Google Docs"],c:1},
+const soal=[
+{ q:"Apa tujuan utama dari penerapan sistem manajemen perpustakaan modern?", a:["Memperluas area fisik gedung perpustakaan secara berkala","Meningkatkan efisiensi layanan, pengelolaan koleksi, dan aksesibilitas bagi pemustaka","Mengurangi jumlah kunjungan fisik secara drastis","Mengganti seluruh pustakawan dengan sistem kecerdasan buatan"], k:1, p:"Tujuan utamanya adalah efisiensi layanan dan kemudahan akses, bukan mengganti pustakawan." },
+{ q:"Dalam konteks digitalisasi perpustakaan, apa yang dimaksud dengan Digital Library?", a:["Perpustakaan yang hanya menyediakan buku cetak dengan sampul digital","Perpustakaan yang tidak memiliki gedung fisik sama sekali","Perpustakaan yang menyimpan koleksinya dalam format digital serta dapat diakses melalui jaringan komputer","Koleksi buku pribadi yang dipindai tanpa izin penerbit"], k:2, p:"Digital Library = koleksi format digital yang bisa diakses online kapan saja." },
+{ q:"Standar metadata apa yang paling umum digunakan untuk mendeskripsikan sumber digital di perpustakaan?", a:["MARC21","Dublin Core","ISBN","ISSN"], k:1, p:"Dublin Core itu standar paling populer karena sederhana dan fleksibel untuk repositori." },
+{ q:"Apa keuntungan utama RFID dibandingkan barcode tradisional?", a:["Biaya perawatan yang jauh lebih murah","Dapat membaca banyak item sekaligus tanpa garis pandang langsung","Tidak memerlukan perangkat keras khusus","Meniadakan inventarisasi tahunan"], k:1, p:"RFID unggul karena bisa scan banyak buku sekaligus tanpa harus sejajar." },
+{ q:"Apa fungsi dari Integrated Library System (ILS)?", a:["Mengatur suhu ruangan dan pencahayaan","Mengintegrasikan sirkulasi, pengatalogan, pengadaan, dan keanggotaan dalam satu sistem","Menghubungkan media sosial perpustakaan","Mengelola keuangan terpisah dari data buku"], k:1, p:"ILS adalah jantung perpustakaan modern, semua fungsi jadi satu software." },
+{ q:"Apa tantangan terbesar dalam digitalisasi naskah kuno?", a:["Kurangnya minat baca masyarakat","Risiko kerusakan fisik pada dokumen asli dan biaya pelestarian digital yang tinggi","Format file sulit diunggah","Tidak ada software pembaca huruf kuno"], k:1, p:"Naskah kuno rapuh, butuh alat khusus dan biaya preservasi mahal." },
+{ q:"Apa yang dimaksud dengan Open Access?", a:["Akses bebas biaya dan tanpa batasan hukum untuk membaca, mengunduh, dan mendistribusikan karya ilmiah daring","Akses perpustakaan 24 jam penuh","Boleh bawa buku tanpa dicatat","Keanggotaan gratis untuk umum"], k:0, p:"Open Access = ilmu pengetahuan gratis, legal, untuk semua orang." },
+{ q:"Perangkat lunak apa yang sering digunakan untuk membangun repositori institusi?", a:["Microsoft Word","DSpace atau EPrints","Adobe Photoshop","Google Docs"], k:1, p:"DSpace dan EPrints adalah software open source paling banyak dipakai kampus dunia." }
 ];
-let cur=0,sc=0;
-function render(){if(cur>=qs.length){document.getElementById('main').innerHTML=`<div class='bg-white p-8 rounded-2xl text-center'><h2 class='text-2xl font-bold'>Skor: ${sc}/${qs.length}</h2><p class='mt-2'>${sc>=6?'Keren! 🎉':'Semangat belajar lagi! 📚'}</p><button onclick='cur=0;sc=0;render()' class='mt-4 bg-indigo-600 text-white px-6 py-2 rounded-xl'>Ulangi</button><p class='mt-6 text-sm'>Link kamu: https://ayunzr.github.io/kuis-perpustakaan-digital/</p></div>`;return}
-let q=qs[cur];document.getElementById('progressText').innerText=(cur+1)+'/'+qs.length;
-document.getElementById('main').innerHTML=`<div class='bg-white p-6 rounded-2xl shadow'><h3 class='font-bold text-lg mb-4'>${cur+1}. ${q.qq}</h3>${q.o.map((opt,i)=>`<button onclick='jawab(${i})' id='b${i}' class='w-full text-left p-3 mb-2 border rounded-xl bg-slate-50 hover:bg-white'>${String.fromCharCode(65+i)}. ${opt}</button>`).join('')}<div id='fb' class='hidden mt-4 p-3 rounded-xl'></div><button id='next' onclick='cur++;render()' class='hidden mt-4 w-full bg-indigo-600 text-white py-2 rounded-xl'>Lanjut</button></div>`;
+let idx=0, skor=0;
+const elQuiz=document.getElementById('quiz'), elBar=document.getElementById('bar'), elQNum=document.getElementById('qNum'), elScore=document.getElementById('score');
+
+function render(){
+if(idx>=soal.length){
+elQuiz.innerHTML=`<div class="text-center py-8 animate-pop"><div class="text-7xl mb-4">${skor>=6?'🏆':'✨'}</div><h2 class="text-3xl font-extrabold">Skor Akhir: ${skor}/${soal.length}</h2><p class="text-slate-500 mt-2 text-sm">${skor==8?'WOW Sempurna! Materi kelas kamu kuasai banget!':skor>=6?'Keren! Pemahaman kamu tentang perpustakaan digital oke!':'Semangat, coba lagi biar makin paham materinya!'}</p><div class="mt-6 flex gap-3 justify-center"><button onclick="idx=0;skor=0;update();render()" class="bg-slate-900 text-white px-7 py-3 rounded-full font-bold text-sm">🔁 Ulang Kuis</button><button onclick="navigator.share?navigator.share({title:'Kuis Perpustakaan',url:location.href}):alert('Copy link: '+location.href)" class="bg-white border px-7 py-3 rounded-full font-bold text-sm">📤 Bagikan</button></div></div>`;
+return;
 }
-function jawab(i){let q=qs[cur];let fb=document.getElementById('fb');let next=document.getElementById('next');for(let k=0;k<q.o.length;k++){document.getElementById('b'+k).disabled=true}
-if(i==q.c){sc++;document.getElementById('b'+i).className='w-full text-left p-3 mb-2 border-2 border-green-500 bg-green-50 rounded-xl';fb.className='mt-4 p-3 rounded-xl bg-green-50 border border-green-200';fb.innerText='✅ Benar!';}else{document.getElementById('b'+i).className='w-full text-left p-3 mb-2 border-2 border-red-400 bg-red-50 rounded-xl';document.getElementById('b'+q.c).className='w-full text-left p-3 mb-2 border-2 border-green-500 bg-green-50 rounded-xl';fb.className='mt-4 p-3 rounded-xl bg-amber-50 border';fb.innerText='❌ Jawaban benar: '+String.fromCharCode(65+q.c);}
-fb.classList.remove('hidden');next.classList.remove('hidden');}
+let s=soal[idx];
+elQuiz.innerHTML=`<h2 class="text-[18px] md:text-[20px] font-bold leading-snug mb-5 text-slate-900">${idx+1}. ${s.q}</h2><div class="grid gap-3">${s.a.map((t,i)=>`<button onclick="jawab(${i})" class="group text-left p-4 rounded-2xl border-2 border-slate-100 bg-slate-50/50 hover:border-violet-400 hover:bg-violet-50 transition-all text-sm font-medium flex gap-3"><span class="shrink-0 w-8 h-8 rounded-full bg-white border flex items-center justify-center font-bold text-xs group-hover:bg-violet-600 group-hover:text-white">${String.fromCharCode(65+i)}</span><span class="pt-1">${t}</span></button>`).join('')}</div><div id="fb" class="mt-4"></div>`;
+update();
+}
+function jawab(pilih){
+let s=soal[idx];
+let btns=elQuiz.querySelectorAll('button');
+let fb=document.getElementById('fb');
+btns.forEach((b,i)=>{
+b.disabled=true;
+if(i==s.k){b.className="text-left p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-sm font-medium flex gap-3";}
+else if(i==pilih){b.className="text-left p-4 rounded-2xl border-2 border-red-300 bg-red-50 text-sm font-medium flex gap-3";}
+});
+if(pilih==s.k){skor++; fb.innerHTML=`<div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-sm"><b class="text-emerald-700">✅ BENAR!</b> <span class="text-slate-600">${s.p}</span></div>`;}
+else{fb.innerHTML=`<div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm"><b class="text-amber-700">Jawaban benar: ${String.fromCharCode(65+s.k)}</b> <span class="text-slate-600">${s.p}</span></div>`;}
+update();
+setTimeout(()=>{idx++; render();},1600);
+}
+function update(){
+elBar.style.width=`${(idx/soal.length)*100}%`;
+elQNum.innerText=`${Math.min(idx+1,soal.length)}/${soal.length}`;
+elScore.innerText=`Skor ${skor}`;
+}
 render();
 </script>
 </body>
-  </html>
+</html>
